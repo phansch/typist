@@ -5,10 +5,35 @@
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
 </head>
 <body>
+  <nav class="navbar navbar-default" role="navigation">
+	  <!-- Brand and toggle get grouped for better mobile display -->
+	  <div class="navbar-header">
+	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	      <span class="sr-only">Toggle navigation</span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	    </button>
+	    <a class="navbar-brand" href="#">Brand</a>
+	  </div>
 
-<%= yield %>
+	  <!-- Collect the nav links, forms, and other content for toggling -->
+	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	    <ul class="nav navbar-nav">
+	      <li><%= link_to "Home",    '/' %></li>
+        <li><%= link_to "Help",    '/help' %></li>
+        <li><%= link_to "About", '/about' %></li>
+	    </ul>
+	  </div><!-- /.navbar-collapse -->
+	</nav>
 
+  <div class="container">
+    <%= yield %>
+  </div>
 </body>
 </html>

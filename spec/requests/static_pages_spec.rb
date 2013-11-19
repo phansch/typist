@@ -23,4 +23,11 @@ describe "Static pages" do
       expect(page).to have_content('About')
     end
   end
+
+  describe "Learn page" do
+    it "should have the content 'Learn'" do
+      visit '/learn'
+      expect(page).to have_content('Learn')
+    end
+  end
 end

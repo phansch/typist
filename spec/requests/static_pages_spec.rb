@@ -30,4 +30,17 @@ describe "Static pages" do
       expect(page).to have_content('Learn')
     end
   end
+
+  it "should have the right links on the layout" do
+    visit root_path
+    click_link "About"
+    expect(page).to have_title(full_title('About'))
+    click_link "Help"
+    expect(page).to have_title(full_title('Help'))
+    click_link "Home"
+    click_link "Try it out"
+    expect(page).to have_title(full_title('Learn'))
+    click_link "Signup"
+    expect(page).to have_title(full_title('Signup'))
+  end
 end

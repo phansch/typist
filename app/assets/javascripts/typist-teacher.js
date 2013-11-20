@@ -30,9 +30,7 @@ function initPage() {
 			highlight_mistake()
 			// Set input background to red
 		}
-
 	});
-
 }
 
 $(function() {

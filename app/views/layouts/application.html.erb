@@ -1,40 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Typist | <%= yield(:title) %></title>
+  <title><%= full_title(yield(:title)) %></title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
-  <!--[if lt IE 9]>
-  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
+  <%= render 'layouts/shim' %>
 </head>
 <body>
-  <nav class="navbar navbar-default" role="navigation">
-	  <!-- Brand and toggle get grouped for better mobile display -->
-	  <div class="navbar-header">
-	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-	      <span class="sr-only">Toggle navigation</span>
-	      <span class="icon-bar"></span>
-	      <span class="icon-bar"></span>
-	      <span class="icon-bar"></span>
-	    </button>
-	    <a class="navbar-brand" href="/">Typist</a>
-	  </div>
-
-	  <!-- Collect the nav links, forms, and other content for toggling -->
-	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	    <ul class="nav navbar-nav">
-	      <li><%= link_to "Home", '/' %></li>
-        <li><%= link_to "Help", '/help' %></li>
-        <li><%= link_to "About", '/about' %></li>
-        <li><%= link_to "Signup", signup_path  %></li>
-	    </ul>
-	  </div><!-- /.navbar-collapse -->
-	</nav>
-
+	<%= render 'layouts/header' %>
   <div class="container">
+  	<% flash.each do |key, value| %>
+      <div class="alert alert-<%= key %>"><%= value %></div>
+    <% end %>
     <%= yield %>
+	  <%= render 'layouts/footer' %>
+	  <%= debug(params) if Rails.env.development? %>
   </div>
 </body>
 </html>

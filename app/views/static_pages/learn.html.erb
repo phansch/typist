@@ -3,7 +3,10 @@
 
 <div id="trainer">test</div>
 <input id="typist" type="text" />
-
+<% if signed_in? %>
+<%= javascript_tag do %>
+	window.userid = <%= current_user.id %>
+<% end %>
 <p>
     <span>CPM</span>
     <span id="CPM">0</span>
@@ -12,6 +15,7 @@
     <span>WPM</span>
     <span id="WPM">0</span>
 </p>
+<% end %>
 
 <p>Available Lessons:</p>
 Get these from the database table "Lessons" and link to specific ones

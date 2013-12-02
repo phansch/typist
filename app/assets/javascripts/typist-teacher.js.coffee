@@ -1,13 +1,30 @@
-iLastTime = 0
-iTime = 0
-iTotal = 0
-iKeys = 0
+# Ugly stuff. Better close your eyes.
+
+class SpeedTracker
+  iLastTime = 0
+  timeCurrent = 0
+  timeTotal = 0
+  keycount = 0
+  wordcount = 0
+  cpm: 0
+  wpm: 0
+
+  updateSpeed: ->
+    timeCurrent = new Date().getTime()
+    unless iLastTime is 0
+      keycount++
+      wordcount = $("#typist").val().split(" ").length
+      timeTotal += timeCurrent - iLastTime
+      cpm = Math.round(keycount / timeTotal * 6000, 2)
+      wpm = Math.round(wordcount / timeTotal * 6000, 2)
+    iLastTime = timeCurrent
+    return { "wpm": wpm, "cpm": cpm }
+
 arr = []
 
-# JS for typist
-initPage = ->
-  #TODO: Get this from a rest api
-  text = "id"
+initPage = (tracker) ->
+  # DO: Get this text from a rest api
+  text = "iiii dddd iiii dddd id"
   arr = text.split(" ")
   $("#trainer").text text
   $("#typist").keydown (e) ->
@@ -21,47 +38,32 @@ initPage = ->
         $("#typist").val ""
         return false
 
-  # Once the
   $("#typist").keyup ->
     if arr.length is 0
         $.ajax "/users/#{userid}.json",
           type: 'PATCH'
           dataType: 'json'
           contentType: "application/json"
-          data: JSON.stringify({user:{WPM:40}})
+          data: JSON .stringify({user:{WPM:30}})
           error: (jqXHR, textStatus, errorThrown) ->
             $('body').append "AJAX Error: #{textStatus}"
           success: (data, textStatus, jqXHR) ->
             $('body').append "Successful AJAX call: #{data}"
 
-      # submit wpm
-
-
-
-checkSpeed = ->
-  iTime = new Date().getTime()
-  unless iLastTime is 0
-    iKeys++
-    iTotal += iTime - iLastTime
-    iWords = $("#typist").val().split(" ").length
-    $("#CPM").html Math.round(iKeys / iTotal * 6000, 2)
-    $("#WPM").html Math.round(iWords / iTotal * 6000, 2)
-  iLastTime = iTime
-
 # body...
 $(window).bind "page:change", ->
-  initPage()
+  initPage(tracker)
 
 $ ->
   $("#typist").keyup ->
-    checkSpeed
+    tracker = new SpeedTracker
+
+    console.log(data)
+    data = tracker.updateSpeed(tracker)
+    $("#CPM").html data.cpm
+    $("#WPM").html data.wpm
+
     if $("#trainer").text.length is 0
       $("#trainer").text "bla"
+
   initPage()
-
-
-
-
-
-
-

@@ -6,10 +6,10 @@ class SpeedTracker
   timeTotal = 0
   keycount = 0
   wordcount = 0
-  cpm: 0
-  wpm: 0
 
   updateSpeed: ->
+    cpm = 0
+    wpm = 0
     timeCurrent = new Date().getTime()
     unless iLastTime is 0
       keycount++
@@ -20,50 +20,70 @@ class SpeedTracker
     iLastTime = timeCurrent
     return { "wpm": wpm, "cpm": cpm }
 
-arr = []
+
+class Typist
+  data = 0
+
+  this.retrieveLesson = (id) ->
+    $.ajax({
+      url: "/lessons/#{id}.json",
+      success: Typist.retrieveLesson,
+    });
+    $.get "/lessons/#{id}.json", (data) ->
+      # How to pass data to calling function?
+      return data
+    console.log(data)
+    return data
+
+
+  this.submitScore = (lesson_id, data) ->
+    $.ajax "/users/#{userid}.json",
+      type: 'PATCH'
+      dataType: 'json'
+      contentType: "application/json"
+      data: JSON .stringify({user:{WPM:data.wpm}})
+      error: (jqXHR, textStatus, errorThrown) ->
+        $('body').append "AJAX Error: #{textStatus}"
+      success: (data, textStatus, jqXHR) ->
+        $('body').append "Successful AJAX call: #{data}"
+
 
 initPage = (tracker) ->
-  # DO: Get this text from a rest api
-  text = "iiii dddd iiii dddd id"
-  arr = text.split(" ")
-  $("#trainer").text text
-  $("#typist").keydown (e) ->
+  trainer = $("#trainer")
+  typist = $("#typist")
+
+  data = Typist.retrieveLesson(1)
+
+  # console.log(data)
+  arr = data.text.split(" ")
+  trainer.text data.text
+
+  typist.keydown (e) ->
     currentKey = String.fromCharCode(e.which).toLowerCase()
-    inputText = $("#typist").val() + currentKey
+    inputText = typist.val() + currentKey
+
     if inputText is arr[0] + " "
-      if currentKey is " "
-        arr.shift()
-        text = arr.join(" ")
-        $("#trainer").text text
-        $("#typist").val ""
-        return false
+      arr.shift()
+      text = arr.join(" ")
+      trainer.text text
+      typist.val ""
+      return false
 
-  $("#typist").keyup ->
-    if arr.length is 0
-        $.ajax "/users/#{userid}.json",
-          type: 'PATCH'
-          dataType: 'json'
-          contentType: "application/json"
-          data: JSON .stringify({user:{WPM:30}})
-          error: (jqXHR, textStatus, errorThrown) ->
-            $('body').append "AJAX Error: #{textStatus}"
-          success: (data, textStatus, jqXHR) ->
-            $('body').append "Successful AJAX call: #{data}"
-
-# body...
-$(window).bind "page:change", ->
-  initPage(tracker)
-
-$ ->
-  $("#typist").keyup ->
-    tracker = new SpeedTracker
-
-    console.log(data)
+  typist.keyup ->
     data = tracker.updateSpeed(tracker)
     $("#CPM").html data.cpm
     $("#WPM").html data.wpm
 
-    if $("#trainer").text.length is 0
-      $("#trainer").text "bla"
+    if arr.length is 0
+      current_lesson = {}
+      current_lesson["id"] = 0
+      Typist.submitScore(current_lesson.id, data)
 
-  initPage()
+# body...
+@tracker = new SpeedTracker
+
+$(window).bind "page:change", ->
+  initPage(tracker)
+
+$ ->
+  initPage(tracker)

@@ -7,8 +7,8 @@ Typist::Application.routes.draw do
   match 'lessons/:id',  to: 'lesson#show',      via: 'get'
 
   # Practice routes
-  match 'practice/:id', to: 'practice#show',    via: 'get'
-  match 'practice',     to: 'practice#create',  via: 'post'
+  match 'practices/:id', to: 'practice#show',    via: 'get'
+  match 'practices',     to: 'practice#create',  via: 'post'
 
   # Static pages
   match '/help',    to: 'static_pages#help',    via: 'get'

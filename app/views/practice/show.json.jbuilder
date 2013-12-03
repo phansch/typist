@@ -1,0 +1,1 @@
+json.extract! @practice, :wpm, :cpm, :created_at, :updated_at

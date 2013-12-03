@@ -5,12 +5,17 @@ FactoryGirl.define do
     password "foobar"
     password_confirmation "foobar"
   end
-end
 
-FactoryGirl.define do
   factory :lesson do
     desc "i and d"
     text "iiii dddd"
+  end
+
+  factory :practice do
+    user_id 1
+    lesson_id 1
+    wpm 30
+    cpm 80
   end
 
 end

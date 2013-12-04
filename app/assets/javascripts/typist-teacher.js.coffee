@@ -24,66 +24,53 @@ class SpeedTracker
 class Typist
   data = 0
 
-  this.retrieveLesson = (id) ->
-    $.ajax({
-      url: "/lessons/#{id}.json",
-      success: Typist.retrieveLesson,
-    });
-    $.get "/lessons/#{id}.json", (data) ->
-      # How to pass data to calling function?
-      return data
-    console.log(data)
-    return data
+  this.startPractice = (tracker, lesson_id = 1) ->
+    trainer = $("#trainer")
+    typist = $("#typist")
+    data.user_id = window.userid
+    data.lesson_id = lesson_id
+
+    $.get "/lessons/#{lesson_id}.json", (data) ->
+      arr = data.text.split(" ")
+      trainer.text data.text
+
+      typist.keydown (e) ->
+        currentKey = String.fromCharCode(e.which).toLowerCase()
+        inputText = typist.val() + currentKey
+
+        if inputText is arr[0] + " "
+          arr.shift()
+          text = arr.join(" ")
+          trainer.text text
+          typist.val ""
+          return false
+
+      typist.keyup ->
+        data = tracker.updateSpeed(tracker)
+        $("#CPM").html data.cpm
+        $("#WPM").html data.wpm
+
+        if arr.length is 0
+          Typist.submitScore(data)
+          Typist.startPractice(new SpeedTracker, lesson_id)
 
 
-  this.submitScore = (lesson_id, data) ->
-    $.ajax "/users/#{userid}.json",
-      type: 'PATCH'
+  this.submitScore = (data) ->
+    $.ajax "/practices",
+      type: 'POST'
       dataType: 'json'
       contentType: "application/json"
-      data: JSON .stringify({user:{WPM:data.wpm}})
+      data: JSON .stringify({practice:data})
       error: (jqXHR, textStatus, errorThrown) ->
         $('body').append "AJAX Error: #{textStatus}"
       success: (data, textStatus, jqXHR) ->
         $('body').append "Successful AJAX call: #{data}"
 
-
-initPage = (tracker) ->
-  trainer = $("#trainer")
-  typist = $("#typist")
-
-  data = Typist.retrieveLesson(1)
-
-  # console.log(data)
-  arr = data.text.split(" ")
-  trainer.text data.text
-
-  typist.keydown (e) ->
-    currentKey = String.fromCharCode(e.which).toLowerCase()
-    inputText = typist.val() + currentKey
-
-    if inputText is arr[0] + " "
-      arr.shift()
-      text = arr.join(" ")
-      trainer.text text
-      typist.val ""
-      return false
-
-  typist.keyup ->
-    data = tracker.updateSpeed(tracker)
-    $("#CPM").html data.cpm
-    $("#WPM").html data.wpm
-
-    if arr.length is 0
-      current_lesson = {}
-      current_lesson["id"] = 0
-      Typist.submitScore(current_lesson.id, data)
-
 # body...
 @tracker = new SpeedTracker
 
 $(window).bind "page:change", ->
-  initPage(tracker)
+  Typist.startPractice(tracker)
 
 $ ->
-  initPage(tracker)
+  Typist.startPractice(tracker)

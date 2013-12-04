@@ -18,4 +18,10 @@ FactoryGirl.define do
     cpm 80
   end
 
+  factory :invalid_practice, :class => 'practice' do
+    user_id 1
+    wpm 1
+    cpm 1
+  end
+
 end

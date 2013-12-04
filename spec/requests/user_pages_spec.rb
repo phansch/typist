@@ -5,11 +5,28 @@ describe "User pages" do
   subject { page }
 
   describe "profile page" do
-    let(:user) { FactoryGirl.create(:user) }
-    before { visit user_path(user) }
+    before do
+      @user = FactoryGirl.create(:user)
+    end
 
-    it { should have_content(user.name) }
-    it { should have_title(user.name) }
+    before { visit user_path(@user) }
+
+    it { should have_content(@user.name) }
+    it { should have_title(@user.name) }
+
+    context "with no completed lessons" do
+      it { should have_link('Start to learn touch-typing') }
+    end
+
+    context "with completed lessons" do
+      before do
+        FactoryGirl.create(:lesson)
+        FactoryGirl.create_list(:practice, 10, user_id: @user.id, wpm: 15)
+        visit user_path(@user) # reload page
+      end
+
+      it { should have_content('WPM') }
+    end
   end
 
   describe "signup page" do
@@ -44,11 +61,13 @@ describe "User pages" do
       end
 
       describe "after saving the user" do
-        before { click_button submit }
-        let(:user) { User.find_by(email: 'user@example.com') }
+        before do
+          click_button submit
+          @user = User.find_by(email: 'user@example.com')
+        end
 
         it { should have_link('Sign out') }
-        it { should have_title(user.name) }
+        it { should have_title(@user.name) }
         it { should have_selector('div.alert.alert-success', text: 'Welcome') }
       end
 

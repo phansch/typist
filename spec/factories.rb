@@ -14,9 +14,10 @@ FactoryGirl.define do
   factory :practice do
     user_id 1
     lesson_id 1
-    wpm 30
+    wpm 15
     cpm 80
   end
+
 
   factory :invalid_practice, :class => 'practice' do
     user_id 1

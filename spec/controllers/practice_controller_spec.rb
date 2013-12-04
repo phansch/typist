@@ -25,10 +25,10 @@ describe PracticeController do
     end
 
     context "with invalid data" do
-      it "does not save the data in the database" do
-        practice = FactoryGirl.attributes_for(:practice, :bla => 'test')
+      it "raises an ArgumentError" do
+        practice = FactoryGirl.attributes_for(:invalid_practice)
         expect{post :create, practice: practice}
-            .not_to change(Practice,:count).by(1)
+            .to raise_error(ArgumentError)
       end
     end
   end

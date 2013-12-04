@@ -17,8 +17,8 @@ describe UsersHelper do
       FactoryGirl.create_list(:practice, 10, wpm: 15)
     end
 
-    it "should return the avarage wpm for the last 10 practices" do
-      expect(avarage_wpm_for(@user)).to eq 15
+    it "should return the average wpm for the last 10 practices" do
+      expect(average_wpm_for(@user)).to eq 15
     end
   end
 end

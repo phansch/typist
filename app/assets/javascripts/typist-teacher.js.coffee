@@ -7,9 +7,13 @@ class SpeedTracker
   keycount = 0
   wordcount = 0
 
-  updateSpeed: ->
-    cpm = 0
-    wpm = 0
+  printSpeed: ->
+    data = calculateSpeed()
+    $("#CPM").html(data.cpm)
+    $("#WPM").html(data.wpm)
+    data
+
+  calculateSpeed = ->
     timeCurrent = new Date().getTime()
     unless iLastTime is 0
       keycount++
@@ -21,56 +25,56 @@ class SpeedTracker
     return { "wpm": wpm, "cpm": cpm }
 
 
-class Typist
-  data = 0
+class Practice
+  arr = []
 
-  this.startPractice = (tracker, lesson_id = 1) ->
-    trainer = $("#trainer")
-    typist = $("#typist")
-    data.user_id = window.userid
-    data.lesson_id = lesson_id
-
-    $.get "/lessons/#{lesson_id}.json", (data) ->
-      arr = data.text.split(" ")
-      trainer.text data.text
-
-      typist.keydown (e) ->
-        currentKey = String.fromCharCode(e.which).toLowerCase()
-        inputText = typist.val() + currentKey
-
-        if inputText is arr[0] + " "
-          arr.shift()
-          text = arr.join(" ")
-          trainer.text text
-          typist.val ""
-          return false
-
-      typist.keyup ->
-        data = tracker.updateSpeed(tracker)
-        $("#CPM").html data.cpm
-        $("#WPM").html data.wpm
-
-        if arr.length is 0
-          Typist.submitScore(data)
-          Typist.startPractice(new SpeedTracker, lesson_id)
-
-
-  this.submitScore = (data) ->
+  submitPracticeScore = (practice_data) ->
     $.ajax "/practices",
       type: 'POST'
       dataType: 'json'
       contentType: "application/json"
-      data: JSON .stringify({practice:data})
+      data: JSON .stringify({practice:practice_data})
       error: (jqXHR, textStatus, errorThrown) ->
         $('body').append "AJAX Error: #{textStatus}"
-      success: (data, textStatus, jqXHR) ->
-        $('body').append "Successful AJAX call: #{data}"
+      success: (practice_data, textStatus, jqXHR) ->
+        $('body').append "Successful AJAX call: #{practice_data}"
+
+  updatePracticeText = (text) ->
+    if text is arr[0] + " "
+      arr.shift()
+      text = arr.join(" ")
+      $("#trainer").text text
+      $("#typist").val ""
+      return false
+
+  startPractice: (tracker, lesson_id = 1) ->
+    trainer = $("#trainer")
+    typist = $("#typist")
+
+    $.get "/lessons/#{lesson_id}.json", (lesson_data) ->
+      arr = lesson_data.text.split(" ")
+      trainer.text lesson_data.text
+
+    typist.keydown (e) ->
+      currentKey = String.fromCharCode(e.which).toLowerCase()
+      inputText = typist.val() + currentKey
+      updatePracticeText(inputText)
+
+    typist.keyup ->
+      data = tracker.printSpeed()
+
+      if arr.length is 0
+        data.user_id = window.userid
+        data.lesson_id = lesson_id
+        submitPracticeScore(data)
+        (new Practice).startPractice(new SpeedTracker, lesson_id + 1) # bad?
 
 # body...
-@tracker = new SpeedTracker
+@tracker = new SpeedTracker()
+@practice = new Practice()
 
 $(window).bind "page:change", ->
-  Typist.startPractice(tracker)
+  practice.startPractice(tracker)
 
 $ ->
-  Typist.startPractice(tracker)
+  practice.startPractice(tracker)

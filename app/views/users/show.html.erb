@@ -4,7 +4,7 @@
   <%= @user.name %>
 </h1>
 
-<% practices = Practice.where(user_id: @user.id).limit(10) %>
+<% practices = Practice.where(user_id: @user.id).limit(10).order(:created_at).reverse_order %>
 <% if practices.count > 0 %>
 
 Avarage typing speed over the last 10 lessons: <%= average_wpm_for(@user) %>

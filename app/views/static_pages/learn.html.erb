@@ -5,7 +5,7 @@
 <input id="typist" type="text" />
 <% if signed_in? %>
 <%= javascript_tag do %>
-	window.userid = <%= current_user.id %>
+        window.userid = <%= current_user.id %>
 <% end %>
 <p>
     <span>CPM</span>
@@ -18,4 +18,11 @@
 <% end %>
 
 <p>Available Lessons:</p>
+<p>
 Get these from the database table "Lessons" and link to specific ones
+</p>
+<% lessons = Lesson.all %>
+
+<% lessons.each do |l| %>
+  <a onclick="" href=""><%= l.desc %></a> click here to start this lesson.
+<% end %>

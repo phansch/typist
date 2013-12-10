@@ -26,9 +26,15 @@ describe "Static pages" do
   end
 
   describe "Learn page" do
-    it "should have the content 'Learn'" do
+    before do 
       visit '/learn'
+      @lesson = FactoryGirl.create(:lesson)
+    end
+    it "should have the content 'Learn'" do
       expect(page).to have_content('Learn')
+    end
+    it "should have a list of available lessons" do
+      expect(page).to have_content(@lesson.desc)
     end
   end
 

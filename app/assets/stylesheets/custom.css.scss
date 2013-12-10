@@ -1,7 +1,7 @@
 #trainer {
 	background: yellow;
-	word-wrap: break-word;
-	width: 100px;
+        overflow: hidden;
+        height: 40px;
 }
 #trainer, #typist {
 	font-family: monospace;

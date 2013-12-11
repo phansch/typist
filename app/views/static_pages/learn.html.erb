@@ -18,11 +18,12 @@
 <% end %>
 
 <p>Available Lessons:</p>
-<p>
-Get these from the database table "Lessons" and link to specific ones
-</p>
 <% lessons = Lesson.all %>
 
 <% lessons.each do |l| %>
-  <a onclick="" href=""><%= l.desc %></a> click here to start this lesson.
+  <ul>
+    <li>
+      <a class="lesson-link" id="<%= l.id %>" href="#"><%= l.desc %></a>
+    </li>
+  </ul>
 <% end %>

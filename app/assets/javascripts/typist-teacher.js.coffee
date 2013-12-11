@@ -50,8 +50,9 @@ class Practice
   startPractice: (tracker, lesson_id = 1) ->
     trainer = $("#trainer")
     typist = $("#typist")
-
+    arr = []
     $.get "/lessons/#{lesson_id}.json", (lesson_data) ->
+      #console.log(lesson_data)
       arr = lesson_data.text.split(" ")
       trainer.text lesson_data.text
 
@@ -69,12 +70,15 @@ class Practice
         submitPracticeScore(data)
         (new Practice).startPractice(new SpeedTracker, lesson_id + 1) # bad?
 
-# body...
-@tracker = new SpeedTracker()
-@practice = new Practice()
+@initPage = ->
+  (new Practice).startPractice(new SpeedTracker)
+  $('.lesson-link').click (e) ->
+    if not isNaN(e.target.id)
+      (new Practice).startPractice(new SpeedTracker, e.target.id)
+    e.preventDefault()
 
-$(window).bind "page:change", ->
-  practice.startPractice(tracker)
+$(document).on "page:load", ->
+  initPage()
 
 $ ->
-  practice.startPractice(tracker)
+  initPage()

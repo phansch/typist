@@ -17,9 +17,9 @@ class SpeedTracker
     timeCurrent = new Date().getTime()
     unless iLastTime is 0
       keycount++
-      wordcount = $("#typist").val().split(" ").length
+      wordcount = window.wordcount
       timeTotal += timeCurrent - iLastTime
-      cpm = Math.round(keycount / timeTotal * 6000, 2)
+      cpm = Math.round(keycount / timeTotal * 60000, 2)
       wpm = Math.round(wordcount / timeTotal * 6000, 2)
     iLastTime = timeCurrent
     return { "wpm": wpm, "cpm": cpm }
@@ -40,26 +40,28 @@ class Practice
         $('body').append "Successful AJAX call: #{practice_data}"
 
   updatePracticeText = (text) ->
-    if text is arr[0] + " "
-      arr.shift()
-      text = arr.join(" ")
-      $("#trainer").text text
-      $("#typist").val ""
-      return false
+    arr.shift()
+    text = arr.join(" ")
+    $("#trainer").text text
+    $("#typist").val ""
+    return false
 
   startPractice: (tracker, lesson_id = 1) ->
     trainer = $("#trainer")
     typist = $("#typist")
     arr = []
+    window.wordcount = 0
     $.get "/lessons/#{lesson_id}.json", (lesson_data) ->
-      #console.log(lesson_data)
       arr = lesson_data.text.split(" ")
       trainer.text lesson_data.text
 
     typist.keydown (e) ->
       currentKey = String.fromCharCode(e.which).toLowerCase()
       inputText = typist.val() + currentKey
-      updatePracticeText(inputText)
+
+      if inputText is arr[0] + " "
+        window.wordcount += 1
+        updatePracticeText(inputText)
 
     typist.keyup ->
       data = tracker.printSpeed()

@@ -1,8 +1,7 @@
 Typist::Application.routes.draw do
-  devise_for :users
+  devise_for :user
   # General resources
-  resources :users
-  resources :sessions, only: [:new, :create, :destroy]
+  resource :user
 
   # Lesson routes
   match 'lessons/:id',  to: 'lesson#show',      via: 'get'

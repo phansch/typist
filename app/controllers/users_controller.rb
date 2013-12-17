@@ -1,38 +1,21 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
-  # GET /users/new
-  def new
-    @user = User.new
-  end
+  before_filter :authenticate_user!
+  before_action :set_user, only: [:edit, :update, :destroy]
 
   # GET /users/1
   # GET /users/1.json
   def show
-
+    @user = current_user
   end
 
-  # GET /users
-  # GET /users.json
+  # GET /user
+  # GET /user.json
   def index
-    @users = User.all
+    @user = current_user
   end
 
   # GET /users/1/edit
   def edit
-  end
-
-  # POST /users
-  # POST /users.json
-  def create
-    @user = User.new(user_params)
-    if @user.save
-      # Handle a successful save.
-      sign_in @user
-      flash[:success] = "Welcome to Typist"
-      redirect_to @user
-    else
-      render 'new'
-    end
   end
 
   # PATCH/PUT /users/1
@@ -47,13 +30,6 @@ class UsersController < ApplicationController
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  # DELETE /users/1
-  # DELETE /users/1.json
-  def destroy
-    sign_out
-    redirect_to root_url
   end
 
   private

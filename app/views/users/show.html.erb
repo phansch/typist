@@ -1,14 +1,14 @@
-<% provide(:title, @user.name) %>
+<% provide(:title, current_user.name) %>
 <h1>
-  <%= gravatar_for @user %>
-  <%= @user.name %>
+  <%= gravatar_for current_user %>
+  <%= current_user.name %>
 </h1>
 
-<% practices = Practice.where(user_id: @user.id).limit(10).order(:created_at).reverse_order %>
+<% practices = Practice.where(user_id: current_user.id).limit(10).order(:created_at).reverse_order %>
 <% if practices.count > 0 %>
 
 <p>
-  Avarage typing speed over the last 10 lessons: <%= average_wpm_for(@user) %>
+  Avarage typing speed over the last 10 lessons: <%= average_wpm_for(current_user) %>
 </p>
 
 <table class="table table-hover table-condensed">

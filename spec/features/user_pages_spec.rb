@@ -76,7 +76,7 @@ describe "User pages" do
         end
         it do
           expect(page).to have_link('Sign out')
-          expect(page).to have_selector('p.alert.alert-notice', text: 'Welcome!')
+          expect(page).to have_selector('div.alert.alert-notice', text: 'Welcome!')
         end
       end
 

@@ -14,6 +14,7 @@ Typist::Application.routes.draw do
   match '/help',    to: 'static_pages#help',    via: 'get'
   match '/about',   to: 'static_pages#about',   via: 'get'
   match '/learn',   to: 'static_pages#learn',   via: 'get'
+
   devise_scope :user do
     match '/signup',  to: 'devise/registrations#new',   via: 'get'
     match '/signin',  to: 'devise/sessions#new',        via: 'get'

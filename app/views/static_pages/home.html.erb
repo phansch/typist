@@ -1,17 +1,25 @@
 <div id="top-part">
+  <h2>Welcome to learndvorak.net</h2>
   <h1>
-    Learn Dvorak now.
+    Start learning Dvorak now.
   </h1>
+  <div id="trainer">test</div>
+  <input id="typist" type="text" />
+  <% if signed_in? %>
+  <%= javascript_tag do %>
+          window.userid = <%= current_user.id %>
+  <% end %>
   <p>
-  <button type="button" class="btn btn-default">
-    Sign up
-  </button>
-  <button type="button" class="btn btn-default">
-    Sign In
-  </button>
+      <span>CPM</span>
+      <span id="CPM">0</span>
   </p>
   <p>
-  <button type="button" class="btn btn-primary btn-lg">Learn more below <span class="glyphicon glyphicon-chevron-right"></span>
-  </button>
+      <span>WPM</span>
+      <span id="WPM">0</span>
+  </p>
+<% end %>
+  <p>
+  <%= link_to 'Sign up', new_user_registration_path, :class => "btn btn-success btn-xs" %> or
+  <%= link_to 'Sign in', signin_path, :class => "btn btn-success btn-xs"%> to save your progress.
   </p>
 </div>

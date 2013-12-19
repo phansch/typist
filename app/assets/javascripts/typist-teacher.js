@@ -123,7 +123,7 @@ Practice = (function() {
 
 this.initPage = function() {
   (new Practice).startPractice(new SpeedTracker);
-
+  $("#typist").focus();
   return $('.lesson-link').click(function(e) {
     if (!isNaN(e.target.id)) {
       (new Practice).startPractice(new SpeedTracker, e.target.id);

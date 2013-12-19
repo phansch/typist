@@ -1,41 +1,47 @@
 <% provide(:title, current_user.name) %>
-<h1>
-  <%= gravatar_for current_user %>
-  <%= current_user.name %>
-</h1>
 
-<% practices = Practice.where(user_id: current_user.id).limit(10).order(:created_at).reverse_order %>
-<% if practices.count > 0 %>
+<div class="row">
+  <div class="col-md-3">
+    <h1>
+      <a href="http://gravatar.com/emails/">
+        <%= gravatar_for current_user %>
+      </a>
+      <br /><%= current_user.name %>
+    </h1>
+  </div>
+  <div class="col-md-9">
 
-<p>
-</p>
+    <% practices = Practice.where(user_id: current_user.id).limit(10).order(:created_at).reverse_order %>
+    <% if practices.count > 0 %>
 
-<div id="profile-perfdetails" class="panel panel-info">
-  <div class="panel-heading">Your recent scores</div>
-  <table class="table table-hover table-condensed">
-    <thead>
-      <tr>
-        <th>Lesson</th>
-        <th>WPM</th>
-        <th>CPM</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% practices.each do |e| %>
-        <tr>
-          <td><%= Lesson.find(e.lesson_id).desc %></td>
-          <td><%= e.wpm %></td>
-          <td><%= e.cpm %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <div class="panel-footer">
-    Avarage speed for the last 10 lessons:
-    <%= average_wpm_for(current_user) %>
+      <div id="profile-perfdetails" class="panel panel-info">
+        <div class="panel-heading">Your recent scores</div>
+        <table class="table table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>Lesson</th>
+              <th>WPM</th>
+              <th>CPM</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% practices.each do |e| %>
+              <tr>
+                <td><%= Lesson.find(e.lesson_id).desc %></td>
+                <td><%= e.wpm %></td>
+                <td><%= e.cpm %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="panel-footer">
+          Avarage speed for the last 10 lessons:
+          <%= average_wpm_for(current_user) %>
+        </div>
+      </div>
+
+    <% else %>
+      <%= link_to "Start to learn touch-typing", '/learn', class: "btn btn-large btn-primary" %>
+    <% end %>
   </div>
 </div>
-
-<% else %>
-  <%= link_to "Start to learn touch-typing", '/learn', class: "btn btn-large btn-primary" %>
-<% end %>

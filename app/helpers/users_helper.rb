@@ -3,7 +3,7 @@ module UsersHelper
   def gravatar_for(user)
     gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
     gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}&s=400"
-    image_tag(gravatar_url, alt: user.name, class: "gravatar img-rounded", width: 220)
+    image_tag(gravatar_url, alt: user.name, class: "gravatar img-rounded", width: 220, :rel => "tooltip", :title => "Change your avatar at gravatar.com", 'data-placement' => "bottom")
   end
 
   def average_wpm_for(user)

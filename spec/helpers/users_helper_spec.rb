@@ -29,5 +29,5 @@ private
   def gravatar_img
     gravatar_id = Digest::MD5::hexdigest(@user.email.downcase)
     gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}"
-    img = "<img alt=\"#{@user.name}\" class=\"gravatar\" src=\"#{gravatar_url}\" />"
+    img = "<img alt=\"#{@user.name}\" class=\"gravatar img-rounded\" data-placement=\"bottom\" rel=\"tooltip\" src=\"#{gravatar_url}&amp;s=400\" title=\"Change your avatar at gravatar.com\" width=\"220\" />"
   end

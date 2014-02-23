@@ -19,7 +19,7 @@ describe "User pages" do
 
     context "with no completed lessons" do
       it do
-        visit '/user'
+        visit user_path
         expect(page).to have_link('Start to learn touch-typing')
       end
     end
@@ -59,8 +59,8 @@ describe "User pages" do
 
     describe "with valid information" do
       before do
-        fill_in "Name",         with: "Example User"
-        fill_in "Email",        with: "user@example.com"
+        fill_in "Username",         with: "Example User"
+        fill_in "Email Adress",        with: "user@example.com"
         fill_in "Password",     with: "foobar123"
         fill_in "Password confirmation", with: "foobar123"
       end
@@ -86,7 +86,7 @@ end
 
 def fill_signin_form
   visit new_user_session_path
-  fill_in 'Email', :with => @user.email
+  fill_in 'Email Adress', :with => @user.email
   fill_in 'Password', :with => @user.password
   click_button 'Sign in'
 end

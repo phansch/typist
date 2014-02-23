@@ -5,30 +5,30 @@ describe "Static pages" do
   describe "Home page" do
 
     it "should have the content 'Typist'" do
-      visit '/'
+      visit root_path
       expect(page).to have_content('Typist')
     end
   end
 
   describe "Help page" do
     it "should have the content 'Help'" do
-      visit '/help'
+      visit help_path
       expect(page).to have_content('Help')
     end
   end
 
   describe "About page" do
     it "should have the content 'About'" do
-      visit '/about'
+      visit about_path
 
       expect(page).to have_content('About')
     end
   end
 
   describe "Learn page" do
-    before do 
+    before do
       @lesson = FactoryGirl.create(:lesson)
-      visit '/learn'
+      visit learn_path
     end
     it "should have the content 'Learn'" do
       expect(page).to have_content('Learn')
@@ -44,9 +44,6 @@ describe "Static pages" do
     expect(page).to have_title(full_title('About'))
     click_link "Help"
     expect(page).to have_title(full_title('Help'))
-    click_link "Home"
-    click_link "Try it out"
-    expect(page).to have_title(full_title('Learn'))
     click_link "Signup"
     expect(page).to have_title(full_title('Signup'))
   end

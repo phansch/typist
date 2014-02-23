@@ -1,5 +1,6 @@
-Typist*
-======
+[![Build Status](https://travis-ci.org/phansch/typist.png?branch=master)](https://travis-ci.org/phansch/typist)
+## Typist*
+
 *name will probably be changed
 
 

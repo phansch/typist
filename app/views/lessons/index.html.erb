@@ -1,0 +1,5 @@
+<%= content_for :javascript do -%>
+  <%= javascript_tag do %>
+    Typist.initialize({ lessons: <%== @lessons.to_json %> });
+  <% end %>
+<% end -%>

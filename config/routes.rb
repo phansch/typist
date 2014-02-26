@@ -4,7 +4,7 @@ Typist::Application.routes.draw do
   resource :user
 
   # Lesson routes
-  match 'lessons/:id',  to: 'lesson#show',      via: 'get'
+  resources :lessons, only: [:show, :index]
 
   # Practice routes
   match 'practices/:id', to: 'practice#show',    via: 'get'
@@ -21,5 +21,5 @@ Typist::Application.routes.draw do
     match '/signout', to: 'devise/sessions#destroy',    via: 'delete'
   end
 
-  root 'static_pages#home'
+  root 'lessons#index'
 end

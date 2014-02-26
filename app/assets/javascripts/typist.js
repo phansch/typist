@@ -3,11 +3,9 @@ window.Typist = {
   Collections: {},
   Views: {},
   Routers: {},
-  initialize: function() {
-    alert('Hello from Backbone!');
+  initialize: function(data) {
+    this.lessons = new Typist.Collections.Lessons(data.lessons);
+    new Typist.Routers.Lessons();
+    Backbone.history.start();
   }
 };
-
-$(document).ready(function(){
-  Typist.initialize();
-});

@@ -135,10 +135,10 @@ this.initPage = function() {
 
 //Making sure the page is loaded correctly with turbolinks as well
 $(document).on("page:load", function() {
-  return initPage();
+  // return initPage();
 });
 
 $(function() {
-  return initPage();
+  // return initPage();
 });
 

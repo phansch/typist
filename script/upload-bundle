@@ -1,0 +1,2 @@
+#!/bin/bash
+curl -f -u phansch:$BUNDLE_PW -k -T typist-bundle-*.tar.gz https://phansch.bootes.uberspace.de/bundles/ || echo 'Nothing uploaded'

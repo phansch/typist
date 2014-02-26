@@ -5,6 +5,11 @@ env:
   global:
   - secure: E5FSTjjV/K3VuqyQYq2q5q5UZEh1YS1x0qhHspO8rwi1NG6WhgTO85ox+WYIHcOTZuxzr1RQRMThyPuK89w//azAbGmpetNaI5Uy7QFlsEMcirQdM6xlYqBJ4XalLqsAYp0oc4Y88qtqde3TMzT4uiMUsfrbd9XZGnoI4U18wyk=
   - secure: cZXuBRofH5ceJqx+bvlctPxILU8A3iHMSWE54wNY8qCD/xA2+vF5FAvcifkjfn+5cf6+LD3iRycQx16KAa/SCtwqP44hE1hBNOg4YMXfxbj4UJq2SA2SWOc3PT/1LYylWtqgONW5lD0yIR3+n4+sHAqxQvkXYDH2JZH1xkHPNQM=
+  - secure: CFEHzGRDgnP6MpCKPaO3OPkteINWWSYuVniCL6PP3sElZgUux+8fEaARIji4IBF5xq+UpI7YaMEdyDktZtg/MPe+dCvvoc+N3mTQCdIUGJU7SlUoCNmLBIh7dHAe7+YwUD+L4MD+zaGBpvf1oQfNCRk+xahEvH1mhwDhKYLTJOY=
+before_install:
+- script/install-bundle
+- script/upload-bundle
+install: echo "Bundle installed"
 before_script:
 - RAILS_ENV=test bundle exec rake db:migrate
 script:

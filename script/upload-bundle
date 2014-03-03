@@ -1,2 +1,2 @@
 #!/bin/bash
-scp -v typist-bundle-*.tar.gz phansch@bootes.uberspace.de:html/bundles/
+curl -f -u phansch:$FTP_PW -k -T typist-bundle-*.tar.gz https://phansch.bootes.uberspace.de/dav/remote.php/webdav/bundles --progress-bar -o output || echo 'Nothing uploaded'

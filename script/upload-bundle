@@ -1,2 +1,2 @@
 #!/bin/bash
-sshpass -p '$FTP_PW' scp typist-bundle-*.tar.gz phansch@bootes.uberspace.de:html/bundles/ || echo 'Nothing uploaded'
+sshpass -p '$FTP_PW' scp typist-bundle-*.tar.gz phansch@bootes.uberspace.de:html/bundles/ -o StrictHostKeyChecking=no || echo 'Nothing uploaded'

@@ -8,7 +8,7 @@ end
 
 BUNDLE_FILE = "typist-bundle-#{RUBY_VERSION}.tar.gz"
 
-if system("curl -f -u phansch:#{ENV['BUNDLE_PW']} -k -o #{BUNDLE_FILE} https://phansch.bootes.uberspace.de/bundles/#{BUNDLE_FILE}")
+if system("curl -f -u phansch:#{ENV['FTP_PW']} -k -o #{BUNDLE_FILE} https://phansch.bootes.uberspace.de/dav/remote.php/webdav/bundles/#{BUNDLE_FILE}")
   cmd 'rm -rf .bundle'
   cmd "tar -xpf #{BUNDLE_FILE}"
   cmd "rm -f #{BUNDLE_FILE}"

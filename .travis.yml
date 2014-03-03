@@ -8,7 +8,7 @@ env:
   - secure: CFEHzGRDgnP6MpCKPaO3OPkteINWWSYuVniCL6PP3sElZgUux+8fEaARIji4IBF5xq+UpI7YaMEdyDktZtg/MPe+dCvvoc+N3mTQCdIUGJU7SlUoCNmLBIh7dHAe7+YwUD+L4MD+zaGBpvf1oQfNCRk+xahEvH1mhwDhKYLTJOY=
   - secure: CTkUBWQfnH4S/j6E20Pf13+++Tsz7WtdgL7O76Zf0uq82UxsT8Qpn9pb7rJJXU9cpS3besyLXmVeMKpCCyBWll1T6SdoJkxMHdOWmVvvPWhngl7KrTaBdx27ijtD121MDu9x6qg1DVpCBWDoRMgmNsnEmYF2ItdS8UvpwTPsz68=
 before_install:
-- sudo apt-get install sshpass
+- sudo cp script/travis.known_hosts ~/.ssh/known_hosts
 - script/install-bundle
 - script/upload-bundle
 install: echo "Bundle installed"

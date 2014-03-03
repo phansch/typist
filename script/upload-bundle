@@ -1,7 +1,2 @@
 #!/bin/bash
-echo "Host bootes.uberspace.de" >> ~/.ssh/config
-echo "   StrictHostKeyChecking no" >> ~/.ssh/config
-echo "   CheckHostIP no" >> ~/.ssh/config
-echo "   UserKnownHostsFile=/dev/null" >> ~/.ssh/config
-sshpass -p '$FTP_PW' scp -v typist-bundle-*.tar.gz phansch@bootes.uberspace.de:html/bundles/
-echo $?
+scp -v typist-bundle-*.tar.gz phansch@bootes.uberspace.de:html/bundles/
